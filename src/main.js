@@ -6,7 +6,6 @@ import axios from 'axios'
 import store from './store'
 import { Button,
   Container,
-  Main, Aside,
   Header,
   Footer,
   Menu,
@@ -14,15 +13,10 @@ import { Button,
   Submenu,
   MenuItemGroup,
   DatePicker,
-  Row,
-  Col,
   Card,
-  Table,
   Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Container)
-Vue.use(Main)
-Vue.use(Aside)
 Vue.use(Header)
 Vue.use(Footer)
 Vue.use(Menu)
@@ -31,9 +25,6 @@ Vue.use(Submenu)
 Vue.use(MenuItemGroup)
 Vue.use(DatePicker)
 Vue.use(Card)
-Vue.use(Row)
-Vue.use(Col)
-Vue.use(Table)
 Vue.use(Loading)
 Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
