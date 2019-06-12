@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card" v-loading="$store.state.loading">
     <div slot="header" class="clearfix">
       <span>{{ type.title1 }}</span>
       <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
@@ -8,7 +8,6 @@
   </el-card>
 </template>
 <script>
-import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -19,7 +18,6 @@ export default {
     this.lineChart()
   },
   computed: {
-    mapState,
     data () {
       return this.$store.state[this.type.detection]
     },

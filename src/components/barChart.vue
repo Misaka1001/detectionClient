@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card" v-loading="$store.state.loading">
     <div slot="header" class="clearfix">
       <span> {{ type.title2 }} </span>
       <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>

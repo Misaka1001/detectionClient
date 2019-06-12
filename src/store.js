@@ -4,6 +4,7 @@ import axios from 'axios'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
+    loading: true,
     lp: [],
     lum: [],
     time: [],
@@ -37,10 +38,12 @@ export default new Vuex.Store({
       '70~90dB': 0,
       '90~120dB': 0
     },
+    deviceId: '',
     menuShow: 'show'
   },
   mutations: {
     initData (state, data) {
+      state.deviceId = data[0]['device_id']
       data.map(item => {
         state.lp.push(item.Lp)
         state.lum.push(item.lum)
@@ -48,6 +51,9 @@ export default new Vuex.Store({
         this.commit('lpAnalyze', item.Lp)
         this.commit('lumAnalyze', item.lum)
       })
+      setTimeout(() => {
+        state.loading = false
+      }, 1000)
     },
     upData (state, data) {
       state.lp.push(data.Lp)

@@ -16,7 +16,9 @@ import { Button,
   DatePicker,
   Row,
   Col,
-  Card } from 'element-ui'
+  Card,
+  Table,
+  Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Container)
 Vue.use(Main)
@@ -31,6 +33,8 @@ Vue.use(DatePicker)
 Vue.use(Card)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Table)
+Vue.use(Loading)
 Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
