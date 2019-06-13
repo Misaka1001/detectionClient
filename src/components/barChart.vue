@@ -1,10 +1,29 @@
 <template>
-  <el-card class="box-card" v-loading="$store.state.loading">
+  <el-card class="box-card" v-loading="$store.state.loading" :class="!listShow ? 'scroll-hidden' : ''">
     <div slot="header" class="clearfix">
       <span> {{ type.title2 }} </span>
-      <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+      <el-button style="float: right; padding: 3px 0" @click="listShow = !listShow" type="text">{{ listShow ? '隐藏列表' : '显示列表' }}</el-button>
     </div>
-    <div class='bar-chart' :id='type.detection + "barChart"'></div>
+    <div
+    class='bar-chart'
+    :id='type.detection + "barChart"'
+    v-show="!listShow"
+    ></div>
+    <el-table
+      v-show="listShow"
+      :data="list"
+      style="width: 100%">
+      <el-table-column
+        prop="key"
+        label="等级"
+        width="200px"
+      ></el-table-column>
+      <el-table-column
+        prop="val"
+        label="测得次数"
+        width="200px"
+      ></el-table-column>
+    </el-table>
   </el-card>
 </template>
 <script>
@@ -12,7 +31,8 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      chart: null
+      chart: null,
+      listShow: false
     }
   },
   mounted () {
@@ -22,6 +42,17 @@ export default {
     mapState,
     barValue () {
       return this.$store.state[this.type.detection + 'Bar']
+    },
+    list () {
+      let barValue = this.$store.state[this.type.detection + 'Bar']
+      let temp = []
+      for (let [key, val] of Object.entries(barValue)) {
+        temp.push({
+          key: key,
+          val: val
+        })
+      }
+      return temp
     }
   },
   props: ['type', 'barData'],

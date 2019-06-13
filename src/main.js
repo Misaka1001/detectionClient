@@ -14,6 +14,8 @@ import { Button,
   MenuItemGroup,
   DatePicker,
   Card,
+  Table,
+  TableColumn,
   Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Container)
@@ -26,6 +28,8 @@ Vue.use(MenuItemGroup)
 Vue.use(DatePicker)
 Vue.use(Card)
 Vue.use(Loading)
+Vue.use(Table)
+Vue.use(TableColumn)
 Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false

@@ -5,7 +5,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     loading: true,
-    lp: [],
+    Lp: [],
     lum: [],
     time: [],
     lumBar: {
@@ -31,7 +31,7 @@ export default new Vuex.Store({
       '2000~3000lx': 0,
       '3000~5000lx': 0
     },
-    lpBar: {
+    LpBar: {
       '30~40dB': 0,
       '40~50dB': 0,
       '50~70dB': 0,
@@ -39,16 +39,23 @@ export default new Vuex.Store({
       '90~120dB': 0
     },
     deviceId: '',
-    menuShow: 'show'
+    menuShow: 'show',
+    data: []
   },
   mutations: {
     initData (state, data) {
       state.deviceId = data[0]['device_id']
       data.map(item => {
-        state.lp.push(item.Lp)
+        let date = new Date(item.time)
+        state.Lp.push(item.Lp)
         state.lum.push(item.lum)
-        state.time.push(new Date(item.time))
-        this.commit('lpAnalyze', item.Lp)
+        state.time.push(date)
+        state.data.push({
+          time: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`,
+          Lp: item.Lp,
+          lum: item.lum
+        })
+        this.commit('LpAnalyze', item.Lp)
         this.commit('lumAnalyze', item.lum)
       })
       setTimeout(() => {
@@ -56,14 +63,14 @@ export default new Vuex.Store({
       }, 1000)
     },
     upData (state, data) {
-      state.lp.push(data.Lp)
+      state.Lp.push(data.Lp)
       state.lum.push(data.lum)
       state.time.push(new Date(data.time))
-      this.commit('lpAnalyze', data.Lp)
+      this.commit('LpAnalyze', data.Lp)
       this.commit('lumAnalyze', data.lum)
     },
-    lpAnalyze (state, data) {
-      let barData = state.lpBar
+    LpAnalyze (state, data) {
+      let barData = state.LpBar
       data = parseFloat(data)
       if (data < 50) {
         if (data < 40) {
@@ -165,10 +172,11 @@ export default new Vuex.Store({
       }
     },
     history (state, data) {
-      state.lp = []
+      state.loading = true
+      state.Lp = []
       state.lum = []
       state.time = []
-      state.lpBar = {
+      state.LpBar = {
         '30~40dB': 0,
         '40~50dB': 0,
         '50~70dB': 0,
@@ -199,12 +207,13 @@ export default new Vuex.Store({
         '3000~5000lx': 0
       }
       data.map(item => {
-        state.lp.push(item.Lp)
+        state.Lp.push(item.Lp)
         state.lum.push(item.lum)
         state.time.push(new Date(item.time))
-        this.commit('lpAnalyze', item.Lp)
+        this.commit('LpAnalyze', item.Lp)
         this.commit('lumAnalyze', item.lum)
       })
+      state.loading = false
     }
   },
   actions: {

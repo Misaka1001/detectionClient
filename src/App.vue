@@ -8,8 +8,8 @@
         <aside-menu></aside-menu>
       </aside>
       <section class="main">
-        <line-chart class="chart" :type="lp"/>
-        <bar-chart class="chart" :type='lp'/>
+        <line-chart class="chart" :type="Lp"/>
+        <bar-chart class="chart" :type='Lp'/>
         <line-chart class="chart" :type='lum'/>
         <bar-chart class="chart" :type='lum'></bar-chart>
       </section>
@@ -29,8 +29,8 @@ export default {
   },
   data () {
     return {
-      lp: {
-        detection: 'lp',
+      Lp: {
+        detection: 'Lp',
         title1: '噪声变化趋势',
         title2: '噪声数据统计',
         formatter: 'dB',
@@ -102,6 +102,24 @@ export default {
   width: 500px;
   height: 600px;
   margin: 30px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.scroll-hidden::-webkit-scrollbar{
+  display: none;
+}
+.el-card::-webkit-scrollbar {
+  width: 8px;
+}
+.el-card::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
+  background: rgba(0, 0, 0, 0.2);
+}
+.el-card::-webkit-scrollbar-track {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
 @media screen and (min-width: 500px){
   body{

@@ -1,17 +1,33 @@
 <template>
-  <el-card class="box-card" v-loading="$store.state.loading">
+  <el-card class="box-card" v-loading="$store.state.loading" :data="data" :class="!listShow ? 'scroll-hidden' : ''">
     <div slot="header" class="clearfix">
       <span>{{ type.title1 }}</span>
-      <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+      <el-button style="float: right; padding: 3px 0" type="text" @click="listShow = !listShow">{{ listShow ? '隐藏列表' : '显示列表' }}</el-button>
     </div>
-    <div class="line-chart" :id='type.detection + "lineChart"'></div>
+    <div class="line-chart" :id='type.detection + "lineChart"' v-show="!listShow"></div>
+    <el-table
+      v-show="listShow"
+      :data="list"
+      style="width: 100%">
+      <el-table-column
+        prop="time"
+        label="时间(年-月-日-时-分-秒)"
+        width="200px"
+      ></el-table-column>
+      <el-table-column
+        :prop="type.detection"
+        :label="'数据(单位:' + type.formatter + ')'"
+        width="200px"
+      ></el-table-column>
+    </el-table>
   </el-card>
 </template>
 <script>
 export default {
   data () {
     return {
-      chart: null
+      chart: null,
+      listShow: false
     }
   },
   mounted () {
@@ -23,6 +39,9 @@ export default {
     },
     time () {
       return this.$store.state.time
+    },
+    list () {
+      return this.$store.state.data
     }
   },
   props: ['type'],
