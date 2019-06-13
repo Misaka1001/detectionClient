@@ -56,10 +56,8 @@ export default {
       console.log(key, keyPath)
     },
     getHistoryValue () {
-      console.log(this.date.getTime())
       this.$axios.get('http://runasama.club/getHistoryValue', { params: { date: this.date.getTime() } }).then((res) => {
         this.$store.commit('history', res.data)
-        console.log(res.data)
       })
     }
   }

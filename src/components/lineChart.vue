@@ -32,6 +32,7 @@ export default {
   },
   mounted () {
     this.lineChart()
+    console.log(this.$store.state.data)
   },
   computed: {
     data () {

@@ -25,7 +25,6 @@ import asideMenu from './components/aside'
 export default {
   mounted () {
     this.initWebSocket()
-    console.log(this.$store.state.menuShow)
   },
   data () {
     return {

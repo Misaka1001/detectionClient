@@ -40,7 +40,8 @@ export default new Vuex.Store({
     },
     deviceId: '',
     menuShow: 'show',
-    data: []
+    data: [],
+    hasData: true
   },
   mutations: {
     initData (state, data) {
@@ -51,6 +52,7 @@ export default new Vuex.Store({
         state.lum.push(item.lum)
         state.time.push(date)
         state.data.push({
+          date: item.time,
           time: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`,
           Lp: item.Lp,
           lum: item.lum
@@ -173,9 +175,15 @@ export default new Vuex.Store({
     },
     history (state, data) {
       state.loading = true
+      if (data.length === 0) {
+        state.hasData = false
+      } else {
+        state.hasData = true
+      }
       state.Lp = []
       state.lum = []
       state.time = []
+      state.data = []
       state.LpBar = {
         '30~40dB': 0,
         '40~50dB': 0,
@@ -207,13 +215,21 @@ export default new Vuex.Store({
         '3000~5000lx': 0
       }
       data.map(item => {
+        let date = new Date(item.time)
         state.Lp.push(item.Lp)
         state.lum.push(item.lum)
-        state.time.push(new Date(item.time))
+        state.time.push(date)
+        state.data.push({
+          date: item.time,
+          time: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`,
+          Lp: item.Lp,
+          lum: item.lum
+        })
         this.commit('LpAnalyze', item.Lp)
         this.commit('lumAnalyze', item.lum)
       })
       state.loading = false
+      console.log(state.data)
     }
   },
   actions: {
