@@ -41,7 +41,8 @@ export default new Vuex.Store({
     deviceId: '',
     menuShow: 'show',
     data: [],
-    hasData: true
+    hasData: true,
+    LAeqArr: Array(24)
   },
   mutations: {
     initData (state, data) {
@@ -173,63 +174,24 @@ export default new Vuex.Store({
         }
       }
     },
-    history (state, data) {
-      state.loading = true
-      if (data.length === 0) {
-        state.hasData = false
-      } else {
-        state.hasData = true
+    history (state, val) {
+      let data = val.data
+      let time = val.time
+      function lg (num) {
+        return Math.log(num) / Math.log(10)
       }
-      state.Lp = []
-      state.lum = []
-      state.time = []
-      state.data = []
-      state.LpBar = {
-        '30~40dB': 0,
-        '40~50dB': 0,
-        '50~70dB': 0,
-        '70~90dB': 0,
-        '90~120dB': 0
-      }
-      state.lumBar = {
-        '0~0.5lx': 0,
-        '0.5~1lx': 0,
-        '1~3lx': 0,
-        '3~5lx': 0,
-        '5~10lx': 0,
-        '10~15lx': 0,
-        '15~30lx': 0,
-        '20~30lx': 0,
-        '30~50lx': 0,
-        '50~75lx': 0,
-        '75~100lx': 0,
-        '100~150lx': 0,
-        '150~200lx': 0,
-        '200~300lx': 0,
-        '300~500lx': 0,
-        '500~750lx': 0,
-        '750~1000lx': 0,
-        '1000~1500lx': 0,
-        '1500~2000lx': 0,
-        '2000~3000lx': 0,
-        '3000~5000lx': 0
-      }
-      data.map(item => {
-        let date = new Date(item.time)
-        state.Lp.push(item.Lp)
-        state.lum.push(item.lum)
-        state.time.push(date)
-        state.data.push({
-          date: item.time,
-          time: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`,
-          Lp: item.Lp,
-          lum: item.lum
+      if (data.length !== 0) {
+        let LAiSum = 0
+        let n = 0
+        let LAeq = 0
+        data.map(item => {
+          LAiSum += (10 ** (0.1 * Number(item.Lp)))
+          n += 1
         })
-        this.commit('LpAnalyze', item.Lp)
-        this.commit('lumAnalyze', item.lum)
-      })
-      state.loading = false
-      console.log(state.data)
+        LAeq = 10 * lg(LAiSum / n, 10)
+        state.LAeqArr[time] = LAeq
+      }
+      console.log(state.LAeqArr)
     }
   },
   actions: {

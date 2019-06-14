@@ -8,6 +8,7 @@
     </el-menu-item>
     <el-menu-item>
       <el-button @click="getHistoryValue">查询</el-button>
+      <router-link :to="{ name: 'computedLAeq'}">User</router-link>
     </el-menu-item>
   </el-menu>
 </template>
@@ -56,9 +57,12 @@ export default {
       console.log(key, keyPath)
     },
     getHistoryValue () {
-      this.$axios.get('http://runasama.club/getHistoryValue', { params: { date: this.date.getTime() } }).then((res) => {
-        this.$store.commit('history', res.data)
-      })
+      let hour = 3600000
+      for (let i = 0; i < 24; i++) {
+        this.$axios.get('http://runasama.club/getHistoryValue', { params: {date: this.date.getTime() + i * hour} }).then((res) => {
+          this.$store.commit('history', {data: res.data, time: i})
+        })
+      }
     }
   }
 }

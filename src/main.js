@@ -16,7 +16,6 @@ import { Button,
   Card,
   Table,
   TableColumn,
-  Message,
   Loading } from 'element-ui'
 Vue.use(Button)
 Vue.use(Container)
@@ -28,7 +27,6 @@ Vue.use(Submenu)
 Vue.use(MenuItemGroup)
 Vue.use(DatePicker)
 Vue.use(Card)
-Vue.use(Message)
 Vue.use(Loading)
 Vue.use(Table)
 Vue.use(TableColumn)
