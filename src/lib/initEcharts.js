@@ -2,9 +2,12 @@
 const echarts = equire([
   'bar',
   'line',
+  'title',
   'tooltip',
   'dataZoom',
-  'toolbox'
+  'toolbox',
+  'markLine',
+  'legend'
 ])
 
 export default echarts

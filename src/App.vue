@@ -18,7 +18,7 @@ import asideMenu from './components/aside'
 import homeMain from './components/homeMain'
 export default {
   mounted () {
-    // this.initWebSocket()
+    this.initWebSocket()
   },
   data () {
     return {}

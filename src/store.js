@@ -42,7 +42,8 @@ export default new Vuex.Store({
     menuShow: 'show',
     data: [],
     hasData: true,
-    LAeqArr: Array(24)
+    LAeqArr: Array(24),
+    lumAverageArr: Array(24)
   },
   mutations: {
     initData (state, data) {
@@ -184,20 +185,24 @@ export default new Vuex.Store({
         let LAiSum = 0
         let n = 0
         let LAeq = 0
+        let lumSum = 0
+        let lumAverage = 0
         data.map(item => {
           LAiSum += (10 ** (0.1 * Number(item.Lp)))
+          lumSum += item.lum
           n += 1
         })
         LAeq = 10 * lg(LAiSum / n, 10)
-        state.LAeqArr[time] = LAeq
+        lumAverage = lumSum / n
+        state.LAeqArr[time] = Math.round(LAeq * 100) / 100
+        state.lumAverageArr[time] = Math.round(lumAverage * 100) / 100
       }
-      console.log(state.LAeqArr)
     }
   },
   actions: {
     getData (context) {
       axios.get('http://runasama.club/data').then((res) => {
-        context.commit('initData', res.data.reverse())
+        context.commit('initData', res.data)
       })
     }
   }
